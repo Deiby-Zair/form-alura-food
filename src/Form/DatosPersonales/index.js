@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
+import { validarNombre, validarApellidos, validarTelefono } from "./validaciones";
 
 const DatosPersonales = ({ updateStep }) => {
+
+  const [name, setName] = useState({ value: '', valid: null });
+  const [lastname, setLastname] = useState({ value: '', valid: null });
+  const [phone, setPhone] = useState({ value: '', valid: null });
   return (
     <Box
       component="form"
@@ -23,6 +28,15 @@ const DatosPersonales = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
+        value={name.value}
+        onChange={(input) => {
+          const value = input.target.value;
+          const valid = validarNombre(value);
+          setName({ value, valid })
+          console.log(valid, value);
+        }}
+        error={name.valid === false}
+        helperText={name.valid === false && "Ingresa al menos 2 caracteres y máximo 30 caracteres"}
       />
       <TextField
         label="Apellidos"
@@ -30,6 +44,15 @@ const DatosPersonales = ({ updateStep }) => {
         fullWidth
         margin="dense"
         type="text"
+        value={lastname.value}
+        onChange={(input) => {
+          const value = input.target.value;
+          const valid = validarApellidos(value);
+          setLastname({ value, valid })
+          console.log(valid, value);
+        }}
+        error={lastname.valid === false}
+        helperText={lastname.valid === false && "Ingresa al menos 2 caracteres y máximo 50 caracteres"}
       />
       <TextField
         label="Número telefónico"
@@ -38,6 +61,15 @@ const DatosPersonales = ({ updateStep }) => {
         margin="dense"
         type="number"
         inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+        value={phone.value}
+        onChange={(input) => {
+          const value = input.target.value;
+          const valid = validarTelefono(value);
+          setPhone({ value, valid })
+          console.log(valid, value);
+        }}
+        error={phone.valid === false}
+        helperText={phone.valid === false && "Ingresa al menos 8 digitos y máximo 14 digitos"}
       />
       <Button variant="contained" type="submit">
         Siguiente
